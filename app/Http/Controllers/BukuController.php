@@ -8,9 +8,27 @@ use Illuminate\Http\Request;
 
 class BukuController extends Controller
 {
-    public function index(Request $request)
+     public function index(Request $request)
     {
-        $data = Buku::all();
+        $userId = $request->header('Authorization');
+
+        if ($userId) {
+            $data = Buku::where('email', $userId)
+                ->orWhereNull('email')
+                ->get()
+                ->map(function ($item) use ($userId) {
+                    $item->mine = $item->email === $userId ? 1 : 0;
+                    return $item;
+                });
+        } else {
+            $data = Buku::whereNull('email')
+                ->get()
+                ->map(function ($item) {
+                    $item->mine = 0;
+                    return $item;
+                });
+        }
+
         return response()->json($data);
     }
 
