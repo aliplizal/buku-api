@@ -64,7 +64,7 @@ class BukuController extends Controller
 
     public function update(Request $request, $id)
     {
-        $email = $request->header('X-User-Email'); // Ganti jika pakai header kustom
+        $email = $request->header('Authorization'); // Ganti jika pakai header kustom
 
         // Validasi data input
         $request->validate([
