@@ -28,7 +28,7 @@ class BukuController extends Controller
             $path = $request->file('gambar')->store('gambar-buku', 'public');
 
             Buku::create([
-                'nama' => $request->judul,
+                'judul' => $request->judul,
                 'kategori' => $request->kategori,
                 'status' => $request->status,
                 'gambar' => $path,
